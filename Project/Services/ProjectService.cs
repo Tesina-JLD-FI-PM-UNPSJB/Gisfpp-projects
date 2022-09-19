@@ -25,38 +25,31 @@ namespace Gisfpp_projects.Project.Services
         public ProjectDTO CreateProject(ProjectDTO newProject)
         {
             // Argument Validations
-            ValidateProject(newProject);
-
-            int newId;
-
-            using(var context = _dbContext) 
+            //ValidateProject(newProject);
+            Model.Project newProjectDB = new Model.Project
             {
-                Model.Project newProjectDB = new Model.Project {
-                    Title = newProject.Title,
-                    Description = newProject.Description!,
-                    ResolutionNumber = newProject.ResolutionNumber!,
-                    Type = newProject.Type,
-                    State = newProject.State,
-                    Start = (DateTime)(newProject.Start is not null ? newProject.Start: DateTime.Today), 
-                    End = ((DateTime)(newProject.End is not null ? newProject.End: DateTime.Today.AddMonths(12))),
-                };
-                context.projects.Add(newProjectDB);
-                context.SaveChanges();
-                newId = newProjectDB.Id;
-            }
-            newProject.Id = newId;
+                Title = newProject.Title,
+                Description = newProject.Description!,
+                ResolutionNumber = newProject.ResolutionNumber!,
+                Type = newProject.Type,
+                State = newProject.State,
+                Start = (DateTime)(newProject.Start is not null ? newProject.Start : DateTime.Today),
+                End = ((DateTime)(newProject.End is not null ? newProject.End : DateTime.Today.AddMonths(12))),
+            };
+            _dbContext.projects.Add(newProjectDB);
+            _dbContext.SaveChanges();
+            newProject.Id = newProjectDB.Id;
+            
             return newProject;
         }
 
 
         public ProjectDTO GetProjectById(int id)
         {
-            using(var context = _dbContext)
-            {
-                var projectFind = _dbContext.projects.Single<Model.Project>(proj => proj.Id == id);
-
-            }
+            var projectFind = _dbContext.projects.Single<Model.Project>(proj => proj.Id == id);
+            return new ProjectDTO(projectFind.Title, projectFind.Type, projectFind.State, projectFind.Start, projectFind.End);
         }
+
         private void ValidateProject(ProjectDTO newProject)
         {
             if (string.IsNullOrEmpty(newProject.Title)) throw new ArgumentException(MSG_PROJECT_WITHOU_TITLE);
