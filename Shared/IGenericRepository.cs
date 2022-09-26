@@ -8,7 +8,7 @@ namespace Gisfpp_projects.Shared
 
         public void Delete(T entity);
 
-        public T FindById(K id);
+        public T? FindById(K id);
 
         public IEnumerable<T> GetAll();
     }

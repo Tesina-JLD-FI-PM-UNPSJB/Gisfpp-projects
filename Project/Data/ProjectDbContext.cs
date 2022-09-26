@@ -8,7 +8,9 @@ namespace Gisfpp_projects.Project.Data
         
         public ProjectDbContext(DbContextOptions options) : base(options)
         {
-        }        
+        }
+        
+
     }
 
 }

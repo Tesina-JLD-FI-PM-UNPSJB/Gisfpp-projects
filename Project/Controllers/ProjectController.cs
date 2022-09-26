@@ -1,83 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Gisfpp_projects.Project.Model.Dto;
+using Gisfpp_projects.Project.Services;
+using Gisfpp_projects.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Gisfpp_projects.Project.Controllers
 {
-    public class ProjectController : Controller
+    public class ProjectsController : ProjectBaseController
     {
-        // GET: ProjectController
-        public ActionResult Index()
+        private ProjectService _service;
+
+        public ProjectsController(ProjectService service)
         {
-            return View();
+            _service = service;
         }
 
-        // GET: ProjectController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ProjectController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ProjectController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<ProjectDTO> CreateProject(ProjectDTO request) {
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                ProjectDTO result = _service.CreateProject(request);
+                return CreatedAtAction(null, null, null, result);
             }
-            catch
+            catch (ValidationException exc)
             {
-                return View();
-            }
+                return BadRequest(exc);
+            }            
         }
 
-        // GET: ProjectController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult<IEnumerable<ProjectDTO>> GetAllProject()
         {
-            return View();
+            var result = _service.GetAllProjects();
+            return Ok(result);
         }
 
-        // POST: ProjectController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpGet("{id}")]        
+        public ActionResult<ProjectDTO> GetProject( int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProjectController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProjectController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var result = _service.GetProjectById(id);
+            if (result == null) return NotFound();
+                
+            return Ok(result);
         }
     }
 }
