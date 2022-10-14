@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Gisfpp_projects.Project.Model.Dto;
 using Gisfpp_projects.Project.Repositories;
+using Gisfpp_projects.Shared;
 using System.ComponentModel.DataAnnotations;
 
 namespace Gisfpp_projects.Project.Services
@@ -49,7 +50,15 @@ namespace Gisfpp_projects.Project.Services
         private void ValidateProject(Model.Project newProjectDB)
         {
             ValidationContext validationContext = new ValidationContext(newProjectDB);
-            Validator.ValidateObject(newProjectDB, validationContext, true);
+            
+            #region Validar
+            var validationResults = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(newProjectDB, validationContext, validationResults, true);
+            if ( !isValid )
+            {
+                throw new ModelInvalidException(validationResults);
+            }
+            #endregion
         }
     }
 }

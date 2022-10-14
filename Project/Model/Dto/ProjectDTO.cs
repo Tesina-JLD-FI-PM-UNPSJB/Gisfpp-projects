@@ -12,10 +12,8 @@ namespace Gisfpp_projects.Project.Model.Dto
         public string? Title { get; set; }
         public string? Description { get; set; }
 
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TypeProject? Type { get; set; }
         
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public StateProject? State { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }

@@ -10,5 +10,6 @@
         public const string MSG_STAR_IS_NULL = "Debe especificarle una \"fecha de inicio\" al Proyecto.";
         public const string MSG_END_IS_NULL = "Debe especificarle una \"fecha de finalización\" al Proyecto.";
         public const string MSG_DESCRIPTION_GREATER_500 = "\"La Descripcion\" del Proyecto no debe ser mayor a 500 caracteres.";
+        public const string MSG_UNEXPECTED_ERROR = "Error inesperado";
     }
 }
