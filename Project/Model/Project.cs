@@ -1,4 +1,4 @@
-﻿using Gisfpp_projects.Shared;
+﻿using Gisfpp_projects.Shared.Model;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

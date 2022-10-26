@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Gisfpp_projects.Project.Model.Dto;
 using Gisfpp_projects.Project.Repositories;
-using Gisfpp_projects.Shared;
+using Gisfpp_projects.Shared.Exceptions;
+using Gisfpp_projects.Shared.Model;
 using System.ComponentModel.DataAnnotations;
 
 namespace Gisfpp_projects.Project.Services
@@ -45,6 +46,20 @@ namespace Gisfpp_projects.Project.Services
         public IEnumerable<ProjectDTO> GetAllProjects() {
             var result = _repo.GetAll();
             return _mapper.Map<IEnumerable<ProjectDTO>>(result);             
+        }
+
+        public ResultPage<ProjectDTO> getPageProjects(int numberPage, int sizePage) {
+            var resultPage = _repo.GetPage(numberPage, sizePage);
+            var resultQuery = _mapper.Map<IEnumerable<ProjectDTO>>(resultPage.result);
+            
+            var result = new ResultPage<ProjectDTO>();
+            result.result = resultQuery;
+            result.totalElements = resultPage.totalElements;
+            result.hasMoreElements = resultPage.hasMoreElements;
+            result.numberPage = numberPage;
+            result.sizePage = sizePage;
+            
+            return result;
         }
 
         private void ValidateProject(Model.Project newProjectDB)

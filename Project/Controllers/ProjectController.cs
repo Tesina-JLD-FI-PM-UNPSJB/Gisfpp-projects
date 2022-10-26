@@ -1,6 +1,7 @@
 ﻿using Gisfpp_projects.Project.Model.Dto;
 using Gisfpp_projects.Project.Services;
-using Gisfpp_projects.Shared;
+using Gisfpp_projects.Shared.Controllers;
+using Gisfpp_projects.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gisfpp_projects.Project.Controllers
@@ -22,10 +23,10 @@ namespace Gisfpp_projects.Project.Controllers
             return CreatedAtAction(null, null, null, result);
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<ProjectDTO>> GetAllProject()
+        [HttpGet]        
+        public ActionResult<ResultPage<ProjectDTO>> GetPageOfProjects(int numberPage, int sizePage)
         {
-            var result = _service.GetAllProjects();
+            var result = _service.getPageProjects(numberPage, sizePage);
             return Ok(result);
         }
 

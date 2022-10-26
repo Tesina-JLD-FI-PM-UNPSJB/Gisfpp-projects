@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Gisfpp_projects.Shared
+
+namespace Gisfpp_projects.Shared.Exceptions
 {
     public class ModelInvalidException : Exception
     {
@@ -7,7 +8,7 @@ namespace Gisfpp_projects.Shared
 
         public ModelInvalidException(ICollection<ValidationResult> results)
         {
-            this.ValidationResults = results;
+            ValidationResults = results;
         }
 
         public ModelInvalidException(string? message) : base(message)

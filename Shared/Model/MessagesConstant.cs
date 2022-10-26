@@ -1,4 +1,4 @@
-﻿namespace Gisfpp_projects.Shared
+﻿namespace Gisfpp_projects.Shared.Model
 {
     public static class MessagesConstant
     {
